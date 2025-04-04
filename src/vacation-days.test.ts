@@ -1,18 +1,41 @@
 import { calculateProRataVacationDays, Employment } from "./vacation-days";
 
-test("full year 100% employment gives all vacation days", () => {
-  // Arrange
+test("100% employment gives all vacation days", () => {
   const fullTime: Employment = {
-    startDate: new Date(Date.parse("2025-01-01 00:00:00+01:00")),
-    untilDate: new Date(Date.parse("2025-12-31 23:59:59+01:00")),
+    startDate: new Date("2025-01-01"),
+    untilDate: new Date("2025-12-31"),
     percentage: 100,
     vacationDays: 25,
   };
-  const expected = 25;
+  expect(calculateProRataVacationDays(fullTime)).toBe(25);
+});
 
-  // Act
-  const actual = calculateProRataVacationDays(fullTime);
+test("50% employment gives half vacation days", () => {
+  const partTime: Employment = {
+    startDate: new Date("2025-01-01"),
+    untilDate: new Date("2025-12-31"),
+    percentage: 50,
+    vacationDays: 25,
+  };
+  expect(calculateProRataVacationDays(partTime)).toBe(12.5);
+});
 
-  // Assert
-  expect(actual).toBe(expected);
+test("partial year 100% employment", () => {
+  const shortTerm: Employment = {
+    startDate: new Date("2025-01-01"),
+    untilDate: new Date("2025-06-30"),
+    percentage: 100,
+    vacationDays: 25,
+  };
+  expect(calculateProRataVacationDays(shortTerm)).toBeCloseTo(12.4, 1);
+});
+
+test("partial year 70% employment", () => {
+  const partShort: Employment = {
+    startDate: new Date("2025-01-01"),
+    untilDate: new Date("2025-03-31"),
+    percentage: 70,
+    vacationDays: 25,
+  };
+  expect(calculateProRataVacationDays(partShort)).toBeCloseTo(4.35, 1);
 });
