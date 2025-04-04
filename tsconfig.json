@@ -4,6 +4,7 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "module": "esnext",
+    "types": ["jest"],
     "moduleResolution": "node",
     "esModuleInterop": true
   }
