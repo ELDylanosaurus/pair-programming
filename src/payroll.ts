@@ -22,15 +22,12 @@ export type Payslip = {
   net: number;
 };
 
-function calcAge (born: Date, payday: Date): number {
-const age = payday.getFullYear() - born.getFullYear();
-
-return age;
+function calcAge(born: Date, payday: Date): number {
+  return payday.getFullYear() - born.getFullYear()
 }
 
 export function calculatePayslip(salary: Salary): Payslip {
-
-  const age = calcAge(salary.born, salary.payday);
+  const age = calcAge(salary.born, salary.payday)
 
   const result: Payslip = {
     salary: salary,
@@ -38,14 +35,13 @@ export function calculatePayslip(salary: Salary): Payslip {
     totalDeductions: 0.0,
     net: salary.gross,
   };
-if(age <= 16){
-
   
-}
-if (salary.gross * 12 < 2500){
+  if (result.salary.gross * 12 >= 2500) {
+    result.totalDeductions = result.deductions.get("ALV") + result.deductions.get("NBU") 
 
-}
+    result.net = result.salary.gross - result.salary.gross * result.totalDeductions / 100
 
+  }
 
   return result;
 }
