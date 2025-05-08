@@ -37,11 +37,17 @@ export function calculatePayslip(salary: Salary): Payslip {
   };
   
   if (result.salary.gross * 12 >= 2500) {
-    result.totalDeductions = result.deductions.get("ALV") + result.deductions.get("NBU") 
 
-    result.net = result.salary.gross - result.salary.gross * result.totalDeductions / 100
+    result.totalDeductions = DEDUCTION_RATES.get("ALV") + DEDUCTION_RATES.get("NBU");
 
   }
+  if (age >= 17) {
+    result.totalDeductions += DEDUCTION_RATES.get("AHV") + DEDUCTION_RATES.get("IV")+ DEDUCTION_RATES.get("EO");
+  }
+  if(result.salary.gross * 12 >= 22680) {
+    result.totalDeductions += DEDUCTION_RATES.get("PK");
+  }
 
-  return result;
+  result.net = result.salary.gross - result.salary.gross * result.totalDeductions / 100;
+  return result
 }
