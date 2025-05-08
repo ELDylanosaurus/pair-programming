@@ -22,13 +22,30 @@ export type Payslip = {
   net: number;
 };
 
+function calcAge (born: Date, payday: Date): number {
+const age = payday.getFullYear() - born.getFullYear();
+
+return age;
+}
+
 export function calculatePayslip(salary: Salary): Payslip {
-  // TODO: implement
+
+  const age = calcAge(salary.born, salary.payday);
+
   const result: Payslip = {
     salary: salary,
     deductions: new Map(),
     totalDeductions: 0.0,
     net: salary.gross,
   };
+if(age <= 16){
+
+  
+}
+if (salary.gross * 12 < 2500){
+
+}
+
+
   return result;
 }
